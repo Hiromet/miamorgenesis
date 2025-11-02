@@ -12,6 +12,23 @@ body {
     overflow-x: hidden;
 }
 
+/* Imagen de fondo - OPCIONAL */
+.background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Si tienes background.jpg en la carpeta, se mostrará */
+    /* Si no, simplemente no se verá pero la página funcionará igual */
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.3;
+    z-index: 0;
+}
+
 /* Filtro vintage sobre toda la página */
 .vintage-filter {
     position: fixed;
@@ -194,28 +211,32 @@ body {
     filter: sepia(50%) hue-rotate(270deg);
 }
 
-/* Placeholder para imagen */
-.image-placeholder {
+/* Contenedor de imagen */
+.image-container {
     margin: 40px 0;
     text-align: center;
-    padding: 60px 20px;
-    border: 2px dashed #764ba2;
-    border-radius: 5px;
-    background: rgba(246, 243, 255, 0.5);
+    padding: 0 20px;
 }
 
-.image-placeholder img {
+.our-photo {
     max-width: 100%;
+    width: 100%;
+    max-height: 500px;
     height: auto;
+    object-fit: contain;
     border-radius: 5px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    filter: sepia(20%) contrast(1.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    filter: sepia(20%) contrast(1.1) saturate(1.1);
+    border: 10px solid #fff;
+    animation: photoFadeIn 2s ease-out;
 }
 
-.image-text {
-    color: #764ba2;
+.photo-caption {
+    margin-top: 20px;
+    font-family: 'Playfair Display', serif;
+    color: #6b4c7a;
     font-style: italic;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
 }
 
 /* Footer */
@@ -260,6 +281,17 @@ body {
     }
 }
 
+@keyframes photoFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .title {
@@ -278,6 +310,10 @@ body {
         font-size: 1.2rem;
         padding: 0 20px;
     }
+    
+    .our-photo {
+        width: 100%;
+    }
 }
 
 /* Efecto de partículas flotantes (corazones) */
@@ -289,6 +325,7 @@ body::before {
     animation: float 6s infinite ease-in-out;
     top: 20%;
     left: 10%;
+    z-index: 1;
 }
 
 body::after {
@@ -299,6 +336,7 @@ body::after {
     animation: float 8s infinite ease-in-out 2s;
     top: 60%;
     right: 15%;
+    z-index: 1;
 }
 
 @keyframes float {
