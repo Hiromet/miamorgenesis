@@ -11,7 +11,19 @@
     <div class="background-image"></div>
     <div class="vintage-filter"></div>
     
-    <div class="container">
+    <!-- Pantalla inicial -->
+    <div class="start-screen" id="startScreen">
+        <h1 class="start-title">Para ti ♡</h1>
+        <p class="start-subtitle">Una carta especial</p>
+        <button class="start-button" id="startButton">Abrir carta</button>
+    </div>
+
+    <!-- Audio oculto -->
+    <audio id="backgroundMusic" loop>
+        <source src="cancion.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div class="container" id="mainContent" style="display: none;">
         <header class="header">
             <h1 class="title">Perdóname</h1>
             <p class="subtitle">Una carta para ti</p>
@@ -39,10 +51,10 @@
                 <p class="quote">"They say you don't know what you've got until it's gone. But I know what I have, and I don't want to lose you."</p>
             </div>
 
-            <!-- Reproductor de música -->
+            <!-- Reproductor de música visible -->
             <div class="music-section">
-                <p class="music-text">🎵 Escucha mientras lees 🎵</p>
-                <audio controls loop autoplay>
+                <p class="music-text">🎵 Música para ti 🎵</p>
+                <audio controls loop id="visiblePlayer">
                     <source src="cancion.mp3" type="audio/mpeg">
                     Tu navegador no soporta el elemento de audio.
                 </audio>
@@ -59,5 +71,46 @@
             <p class="date">Noviembre 2025</p>
         </footer>
     </div>
+
+    <script>
+        const startButton = document.getElementById('startButton');
+        const startScreen = document.getElementById('startScreen');
+        const mainContent = document.getElementById('mainContent');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const visiblePlayer = document.getElementById('visiblePlayer');
+
+        startButton.addEventListener('click', function() {
+            // Ocultar pantalla inicial con animación
+            startScreen.style.opacity = '0';
+            
+            setTimeout(function() {
+                startScreen.style.display = 'none';
+                mainContent.style.display = 'block';
+                
+                // Iniciar música automáticamente
+                backgroundMusic.play().catch(function(error) {
+                    console.log('Autoplay bloqueado:', error);
+                });
+                
+                // Sincronizar ambos reproductores
+                visiblePlayer.currentTime = backgroundMusic.currentTime;
+            }, 500);
+        });
+
+        // Sincronizar reproductores
+        backgroundMusic.addEventListener('timeupdate', function() {
+            if (Math.abs(visiblePlayer.currentTime - backgroundMusic.currentTime) > 0.5) {
+                visiblePlayer.currentTime = backgroundMusic.currentTime;
+            }
+        });
+
+        visiblePlayer.addEventListener('play', function() {
+            backgroundMusic.play();
+        });
+
+        visiblePlayer.addEventListener('pause', function() {
+            backgroundMusic.pause();
+        });
+    </script>
 </body>
 </html>
